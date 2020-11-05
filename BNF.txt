@@ -1,0 +1,53 @@
+<ARXEIO> ::= "<ss:Workbook>" WorkbookPer "</ss:Workbook>";
+
+<WorkbookPer> ::= <StylesMore2> <WorksheetMore> | <WorksheetMore> ;
+
+<StylesMore2> ::= <StylesMain> | <StylesMore2> <StylesMain> ;
+
+<StylesMain> ::= "<ss:Styles>" <StylesMore> "</ss:Styles>" ;
+
+<StylesMore> ::= <StyleMain> | <StylesMore> <StyleMain> ;
+
+<StyleMain> ::= "<ss:Style>" "ss:ID=" <STRING>  "</ss:Style>" ;
+
+<WorksheetMore> ::= <WorksheetMain> | <WorksheetMore> <WorksheetMain> ;
+
+<WorksheetMain> ::= "<ss:Worksheet>" <WorksheetPer> ">" <TableForWork> "<ss:/Worksheet>";
+
+<WorksheetPer> ::= "<ss:Name>=" <STRING> | "<ss:Name>=" <STRING> "<ss:Protected>=" BOOL ;
+
+<TableForWork> ::= %empty | <TableMain> | <TableForWork> <TableMain> ;
+
+<TableMain> ::= "<ss:Table>" <EpipleonTable> ">" <ColumnHelp> <RowHelp> "</ss:Table>" ; 
+
+<EpipleonTable> ::= "<ss:ExpandedColumnCount>=" <NUM> | "<ss:StyleID:>=" <STRING> | "<ss:ExpandedRowCount>=" <NUM> ;
+
+<ColumnHelp> ::= %empty | <ColumnMain> | <ColumnHelp> <ColumnMain> ;
+
+<RowHelp> ::= %empty | <RowMain> | <RowHelp> <RowMain> ;
+
+<ColumnMain> ::= "<ss:Column>" <ColumnMore> "/>" ;
+
+<ColumnMore> ::= "<ss:StyleID:>=" <STRING> | "<ss:StyleID:>=" <BOOL> | "<ss:StyleID:>=" <NUM> ;
+
+<RowMain> ::= "<ss:Row>" <RowMore> ">" <CellMore> "</ss:Row>" ; 
+
+<RowMore> ::= %empty | "<ss:Height>=" <NUM> | "<ss:Height>=" <BOOL> | "<ss:Height>=" <STRING> ;
+
+<CellMore> ::= %empty | <CellMain> | <CellMore> <CellMain> ;
+
+<CellMain> ::= "<ss:Cell>" ">" <DataMore> "</ss:Cell>"| "<ss:Cell>" <DataMore> <CellPer> "</ss:Cell>"
+
+<DataMore> ::= %empty | <DataMain> | <DataMore> <DataMain> ;
+
+<DataMain> ::= "<ss:Data>" "<ss:Type>=" <TypeforData> ">" <DataMore> "</ss:Data>";
+
+<TypeforData> ::= "NUMBER" | "STRINGDATA" | "BOOLEAN" | "DATETIME" ;
+
+<DataMore> ::= "string data" | NUM | "datetime data" | "boolean data" ;
+
+<CellPer> ::= "<ss:Mergeacross>=" <NUM> "<ss:Mergedown>=" <NUM> "<ss:StyleID>=" <STRING>;
+
+<BOOL> ::= "TRUE" | "FALSE" ;
+<NUM> ::= \"[0-9][0-9]*\" ;
+STRING ::= \"[^'\n]*\" ;
